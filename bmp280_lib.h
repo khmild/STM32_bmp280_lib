@@ -9,7 +9,11 @@ public:
     bmp280(I2C_HandleTypeDef _i2c, uint8_t _address);
     bmp280(I2C_HandleTypeDef _i2c);
     void settings(uint8_t osrs_p, uint8_t osrs_t, uint8_t mode);
-    void getTemperature();
+    void setConfig(uint8_t t_sb);
+    uint8_t conversionRunning();
+    uint8_t dataCopying();
+    void getTempPressure();
+    double getTemperature();
     void getPressure();
     void Reset();
     uint8_t read_id();
@@ -32,11 +36,13 @@ private:
     int16_t dig_P9;
 
     void readAll();
+    int32_t readTemp();
+    int32_t readPressure();
     uint16_t readU16bit(uint8_t addr);
     int16_t readS16bit(uint8_t addr);
     void readCalibration();
-    void convertPressure();
-    void convertTemp();
+    double convertPressure(int32_t pres_raw);
+    double convertTemp(int32_t temp_raw);
 };
 
 #endif
